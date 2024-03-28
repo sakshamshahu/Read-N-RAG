@@ -11,7 +11,7 @@ def parse_file(filename):
             elif len(buffer):
                 paragraphs.append((' ').join(buffer))
                 buffer = []
-        if len(buffer):
+        if len(buffer): # if buffer is not empty after exiting loop append it to paragraphs
             paragraphs.append((' ').join(buffer))
         return paragraphs
         
@@ -19,5 +19,5 @@ def parse_file(filename):
 def main():
     filename = 'ai/data/cnr.txt'
     paragraphs = parse_file(filename)
-    print(paragraphs[:20]) 
+    print(paragraphs[:20]) # print first 20 paragraphs
     
