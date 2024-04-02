@@ -45,8 +45,8 @@ def save_embeddings(filename, embeddings):
         json.dump(embeddings, f)
 
 def main():
-    filename = 'ai/data/cnr.txt'
+    filename = 'cnr.txt'
     paragraphs = parse_file(filename)
-    embeddings = get_embeddings(filename,'mistral', paragraphs)
+    embeddings = get_embeddings(filename, 'mistral-openorca', paragraphs)
     print(paragraphs[:20]) # print first 20 paragraphs
 
