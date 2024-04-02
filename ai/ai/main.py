@@ -15,9 +15,14 @@ def parse_file(filename):
             paragraphs.append((' ').join(buffer))
         return paragraphs
         
-
+def get_embeddings(modelname, chunks):
+    return [
+        ollama.embeddings(model = modelname, prompt=chunk)['embedding']
+        for chunk in chunks
+    ]
 def main():
     filename = 'ai/data/cnr.txt'
     paragraphs = parse_file(filename)
+    embeddings = get_embeddings('mistral', paragraphs)
     print(paragraphs[:20]) # print first 20 paragraphs
-    
+
