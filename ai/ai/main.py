@@ -24,11 +24,18 @@ def load_embeddings(filename):
     with open(f'embeddings/{filename}.json', 'r') as f:
         return json.load(f)
         
-def get_embeddings(modelname, chunks):
-    return [
+def get_embeddings(filename, modelname, chunks):
+    # checking for already saved embeddings
+    if (embeddings := load_embeddings(filename)) is not False:
+        return embeddings
+    
+    embeddings = [
         ollama.embeddings(model = modelname, prompt=chunk)['embedding']
         for chunk in chunks
     ]
+    # save the embeddings to json
+    save_embeddings(filename, embeddings)
+    return embeddings
 
 def save_embeddings(filename, embeddings):
     if not os.path.exists('embeddings'):
@@ -40,6 +47,6 @@ def save_embeddings(filename, embeddings):
 def main():
     filename = 'ai/data/cnr.txt'
     paragraphs = parse_file(filename)
-    embeddings = get_embeddings('mistral', paragraphs)
+    embeddings = get_embeddings(filename,'mistral', paragraphs)
     print(paragraphs[:20]) # print first 20 paragraphs
 
