@@ -16,6 +16,13 @@ def parse_file(filename):
         if len(buffer): # if buffer is not empty after exiting loop append it to paragraphs
             paragraphs.append((' ').join(buffer))
         return paragraphs
+
+def load_embeddings(filename):
+    if not os.path.exists(f'embeddings/{filename}.json'):
+        return False
+    #loading the embeddings from json
+    with open(f'embeddings/{filename}.json', 'r') as f:
+        return json.load(f)
         
 def get_embeddings(modelname, chunks):
     return [
