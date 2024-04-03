@@ -1,2 +1,5 @@
 #pycache
 ai/ai/__pycache__
+
+#embeddings
+ai/ai/data
