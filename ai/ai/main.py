@@ -58,22 +58,26 @@ def consine_sim(needle, haystack):
 
 
 def main():
+    print('The script is running.. 🚀')
+    
     SYSTEM_PROMPT = """You are a helpful reading assistant who answers questions 
         based on snippets of text provided in context. Answer only using the context provided, 
         being as concise as possible. If you're unsure, just say that you don't know.
         Context:
     """
-    filename = 'cnr.txt'
+    filename = '100ml.txt'
     paragraphs = parse_file(filename)
-    embeddings = get_embeddings(filename, 'mistral-openorca', paragraphs)
+    embeddings = get_embeddings(filename, 'nomic-embed-text', paragraphs)
     
     prompt = input('What would you like to know about the text? ')
-    promt_embedding = ollama.embeddings(model = 'mistral-openorca', prompt=prompt)['embedding']
+    promt_embedding = ollama.embeddings(model = 'nomic-embed-text', prompt=prompt)['embedding']
     
-    most_sim_chunks = consine_sim(promt_embedding, embeddings)[:20]
+    most_sim_chunks = consine_sim(promt_embedding, embeddings)[:250]
+    
     
     #iterating through the most similar paragraphs
     for item in most_sim_chunks:
+        
         print(f"Similarity score: {item[0]} ", paragraphs[item[1]], '\n')
         
     response = ollama.chat(
