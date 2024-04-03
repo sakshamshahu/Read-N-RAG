@@ -1,6 +1,8 @@
 import ollama
 import os 
 import json
+from numpy.linalg import norm
+import numpy as np
 
 def parse_file(filename):
     with open(filename, encoding='utf-8-sig') as f:
@@ -44,9 +46,23 @@ def save_embeddings(filename, embeddings):
     with open(f'embeddings/{filename}.json', 'w') as f:
         json.dump(embeddings, f)
 
+def consine_sim(needle, haystack):   
+    # calculate the norm of the needle
+    needleNorm = norm(needle)
+    
+    # calculate the cosine similarity between the needle and each paragraph in the haystack
+    sim_scores = [ np.dot(needle,item) / (needleNorm * norm(item)) for item in haystack ]
+    
+    # return the sorted list of tuples containing the similarity score and the index of the paragraph
+    return sorted(zip(sim_scores, range(len(haystack))), reverse = True)
+
+
 def main():
     filename = 'cnr.txt'
     paragraphs = parse_file(filename)
     embeddings = get_embeddings(filename, 'mistral-openorca', paragraphs)
     print(paragraphs[:20]) # print first 20 paragraphs
+    
+    
 
+    
