@@ -61,8 +61,16 @@ def main():
     filename = 'cnr.txt'
     paragraphs = parse_file(filename)
     embeddings = get_embeddings(filename, 'mistral-openorca', paragraphs)
-    print(paragraphs[:20]) # print first 20 paragraphs
     
+    prompt = 'Who is rashkolnikov ?'
+    promt_embedding = ollama.embeddings(model = 'mistral-openorca', prompt=prompt)['embedding']
     
+    most_sim_chunks = consine_sim(promt_embedding, embeddings)[:20]
+    
+    #iterating through the most similar paragraphs
+    for item in most_sim_chunks:
+        print(f"Similarity score: {item[0]} ", paragraphs[item[1]], '\n')
+        
+
 
     
