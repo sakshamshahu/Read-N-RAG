@@ -73,8 +73,8 @@ def main():
     most_sim_chunks = consine_sim(promt_embedding, embeddings)[:20]
     
     #iterating through the most similar paragraphs
-    # for item in most_sim_chunks:
-    #     print(f"Similarity score: {item[0]} ", paragraphs[item[1]], '\n')
+    for item in most_sim_chunks:
+        print(f"Similarity score: {item[0]} ", paragraphs[item[1]], '\n')
         
     response = ollama.chat(
         model= 'mistral-openorca',
