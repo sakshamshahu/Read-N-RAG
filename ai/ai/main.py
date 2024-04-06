@@ -65,14 +65,14 @@ def main():
         being as concise as possible. If you're unsure, just say that you don't know.
         Context:
     """
-    filename = '100ml.txt'
+    filename = 'eg.txt'
     paragraphs = parse_file(filename)
     embeddings = get_embeddings(filename, 'nomic-embed-text', paragraphs)
     
     prompt = input('What would you like to know about the text? ')
     promt_embedding = ollama.embeddings(model = 'nomic-embed-text', prompt=prompt)['embedding']
     
-    most_sim_chunks = consine_sim(promt_embedding, embeddings)[:250]
+    most_sim_chunks = consine_sim(promt_embedding, embeddings)[:50]
     
     
     #iterating through the most similar paragraphs
