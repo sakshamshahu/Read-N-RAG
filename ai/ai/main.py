@@ -4,6 +4,7 @@ import json
 from numpy.linalg import norm
 import numpy as np
 import streamlit as st
+import time
 
 
 def parse_file(filename):
@@ -70,27 +71,31 @@ def main():
     if prompt := st.chat_input('Whats Up ?'):
         st.session_state['messages'].append({'role': 'user', 'content': prompt})
     
+    if not prompt:
+        time.sleep(3600)
+    
     SYSTEM_PROMPT = """You are a helpful reading assistant who answers questions 
         based on snippets of text provided in context. Answer only using the context provided, 
         being as concise as possible. If you're unsure, just say that you don't know.
         Context:
     """
-    filename = 'eg.txt'
+    filename = '100ml.txt'
     paragraphs = parse_file(filename)
     embeddings = get_embeddings(filename, 'nomic-embed-text', paragraphs)
     
     # prompt = input('What would you like to know about the text? ')
     promt_embedding = ollama.embeddings(model = 'nomic-embed-text', prompt=prompt)['embedding']
     
+
     most_sim_chunks = consine_sim(promt_embedding, embeddings)[:50]
-    
+
     
     #iterating through the most similar paragraphs
-    for item in most_sim_chunks:
-        print(f"Similarity score: {item[0]} ", paragraphs[item[1]], '\n')
-        
+    # for item in most_sim_chunks:
+    #     print(f"Similarity score: {item[0]} ", paragraphs[item[1]], '\n')  
         
     def gen():  
+
         response = ollama.chat(
             model= 'mistral-openorca',
             messages= [
@@ -106,6 +111,10 @@ def main():
         )
         for chunk in response:
             yield chunk['message']['content']
+    
+    for message in st.session_state["messages"]:
+        with st.chat_message(message["role"]):
+            st.markdown(message['content'])
     
     with st.chat_message('user'):
         st.markdown(prompt)
