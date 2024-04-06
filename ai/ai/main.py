@@ -89,22 +89,30 @@ def main():
     for item in most_sim_chunks:
         
         print(f"Similarity score: {item[0]} ", paragraphs[item[1]], '\n')
-        
-    response = ollama.chat(
-        model= 'mistral-openorca',
-        messages= [
-            {
-                'role': 'system',
-                'content': SYSTEM_PROMPT + '\n'.join([paragraphs[item[1]] for item in most_sim_chunks]),
-            },
-            {
-                'role': 'user',
-                'content': prompt
-            },
-        ],
-    )
+    def gen():  
+        response = ollama.chat(
+            model= 'mistral-openorca',
+            messages= [
+                {
+                    'role': 'system',
+                    'content': SYSTEM_PROMPT + '\n'.join([paragraphs[item[1]] for item in most_sim_chunks]),
+                },
+                {
+                    'role': 'user',
+                    'content': prompt
+                },
+            ],
+        )
+    
+    with st.chat_message('user'):
+        st.markdown(prompt)
+    
+    with st.chat_message("assistant"):
+        message = st.write_stream(gen())
+        st.session_state["messages"].append({"role": "assistant", "content": message})
+    
     print('\n')
-    print(response['message']['content'])
+    # print(response['message']['content'])
 
 if __name__ == '__main__':
     main()
