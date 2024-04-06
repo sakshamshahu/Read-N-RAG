@@ -64,6 +64,12 @@ def main():
     st.title('Read N Rag')
     st.write('Mine Text documents for information  💻 ⛏️ ')
     
+    if "messages" not in st.session_state: # Initialize state history
+        st.session_state["messages"] = []
+    
+    if prompt := st.chat_input('Whats Up ?'):
+        st.session_state['messages'].append({'role': 'user', 'content': prompt})
+    
     SYSTEM_PROMPT = """You are a helpful reading assistant who answers questions 
         based on snippets of text provided in context. Answer only using the context provided, 
         being as concise as possible. If you're unsure, just say that you don't know.
