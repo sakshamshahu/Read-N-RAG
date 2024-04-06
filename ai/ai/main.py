@@ -3,6 +3,8 @@ import os
 import json
 from numpy.linalg import norm
 import numpy as np
+import streamlit as st
+
 
 def parse_file(filename):
     with open(filename, encoding='utf-8-sig') as f:
@@ -59,6 +61,8 @@ def consine_sim(needle, haystack):
 
 def main():
     print('The script is running.. 🚀')
+    st.title('Read N Rag')
+    st.write('Mine Text documents for information  💻 ⛏️ ')
     
     SYSTEM_PROMPT = """You are a helpful reading assistant who answers questions 
         based on snippets of text provided in context. Answer only using the context provided, 
@@ -95,4 +99,6 @@ def main():
     )
     print('\n')
     print(response['message']['content'])
-    
+
+if __name__ == '__main__':
+    main()
