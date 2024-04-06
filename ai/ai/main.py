@@ -79,7 +79,7 @@ def main():
     paragraphs = parse_file(filename)
     embeddings = get_embeddings(filename, 'nomic-embed-text', paragraphs)
     
-    prompt = input('What would you like to know about the text? ')
+    # prompt = input('What would you like to know about the text? ')
     promt_embedding = ollama.embeddings(model = 'nomic-embed-text', prompt=prompt)['embedding']
     
     most_sim_chunks = consine_sim(promt_embedding, embeddings)[:50]
@@ -87,8 +87,9 @@ def main():
     
     #iterating through the most similar paragraphs
     for item in most_sim_chunks:
-        
         print(f"Similarity score: {item[0]} ", paragraphs[item[1]], '\n')
+        
+        
     def gen():  
         response = ollama.chat(
             model= 'mistral-openorca',
@@ -100,9 +101,11 @@ def main():
                 {
                     'role': 'user',
                     'content': prompt
-                },
-            ],
+                }, 
+            ], stream = True
         )
+        for chunk in response:
+            yield chunk['message']['content']
     
     with st.chat_message('user'):
         st.markdown(prompt)
