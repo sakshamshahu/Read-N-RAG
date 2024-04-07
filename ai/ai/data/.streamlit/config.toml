@@ -1,0 +1,5 @@
+[global]
+showWarningOnDirectExecution = false
+
+[theme]
+base= "dark"

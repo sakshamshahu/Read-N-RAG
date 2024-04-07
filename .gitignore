@@ -2,4 +2,11 @@
 ai/ai/__pycache__
 
 #embeddings
-ai/ai/data
+ai/ai/data/embeddings
+
+ai/ai/data/100ml.txt
+ai/ai/data/bhndmec.txt
+ai/ai/data/cnr.txt
+ai/ai/data/eg.txt
+ai/ai/data/hpss.txt
+ai/ai/data/structured.txt
