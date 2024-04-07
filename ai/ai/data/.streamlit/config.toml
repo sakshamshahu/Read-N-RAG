@@ -3,3 +3,4 @@ showWarningOnDirectExecution = false
 
 [theme]
 base= "dark"
+backgroundColor = '#240b3b'
