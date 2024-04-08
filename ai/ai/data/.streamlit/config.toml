@@ -2,5 +2,8 @@
 showWarningOnDirectExecution = false
 
 [theme]
-base= "dark"
-backgroundColor = '#240b3b'
+primaryColor = '#7792E3'
+backgroundColor = '#3a4b66'
+secondaryBackgroundColor = '#B9F1C0'
+textColor = '#000000'
+font = 'monospace'
